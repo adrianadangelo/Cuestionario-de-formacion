@@ -42,7 +42,7 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
 .field-hint{font-size:.75rem;color:var(--light);margin-top:.4rem;}
 .msg-box{border-radius:var(--r-sm);padding:10px 14px;font-size:.83rem;margin-top:.75rem;display:none;}
 .msg-error{background:var(--red-bg);border:1px solid rgba(224,62,62,.25);color:var(--red);}
-.msg-warn{background:#fff8e6;border:1px solid rgba(0,166,220,.35);color:#7a5200;}
+.msg-warn{background:var(--blue-faint);border:1px solid rgba(65,143,222,.35);color:var(--navy);}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:var(--r-sm);font-family:'Montserrat',Arial,sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;letter-spacing:.01em;}
 .btn-primary{background:var(--navy);color:#fff;}
 .btn-primary:hover{background:var(--navy2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,30,98,.25);}
@@ -169,7 +169,7 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
         <input class="field-input" type="email" id="inp-ced" placeholder="tunombre@farmatodo.com" autocomplete="email">
         <div class="field-hint">Ingresa tu correo corporativo @farmatodo.com</div>
         <div class="msg-box msg-error" id="msg-error">Ingresa un correo válido con dominio @farmatodo.com</div>
-        <div class="msg-box msg-warn" id="msg-warn">Ya respondiste este cuestionario desde este equipo. Puedes actualizarlo enviando de nuevo.</div>
+        <div class="msg-box msg-warn" id="msg-warn">Este correo ya respondió el cuestionario. Solo se permite una respuesta por colaborador. ¡Gracias por tu participación!</div>
         <button class="btn btn-primary btn-block" id="btn-login">Ingresar al cuestionario</button>
       </div>
     </div>
@@ -332,26 +332,50 @@ function goScreen(id) {
   window.scrollTo(0, 0);
 }
 
+function showLoginMsg(id, text) {
+  var el = document.getElementById(id);
+  if (text) el.textContent = text;
+  el.style.display = 'block';
+}
+
+function setLoginBusy(busy) {
+  var b = document.getElementById('btn-login');
+  b.disabled = busy;
+  b.textContent = busy ? 'Verificando\u2026' : 'Ingresar al cuestionario';
+  b.style.opacity = busy ? '.7' : '';
+}
+
 function doLogin() {
   var v = document.getElementById('inp-ced').value.trim().toLowerCase();
-  var eErr = document.getElementById('msg-error');
-  var eWarn = document.getElementById('msg-warn');
-  eErr.style.display = 'none';
-  eWarn.style.display = 'none';
-  if (!/^[^\s@]+@farmatodo\.com$/.test(v)) { eErr.style.display = 'block'; return; }
-  correo = v;
-  var all = loadAll();
-  if (all[v]) {
-    eWarn.style.display = 'block';
-    var d = all[v];
-    [['f-nombre', 'nombre'], ['f-unidad', 'unidad'], ['f-nivel', 'nivel'], ['f-puesto', 'puesto']].forEach(function (p) {
-      var el = document.getElementById(p[0]);
-      if (el && d[p[1]]) el.value = d[p[1]];
+  document.getElementById('msg-error').style.display = 'none';
+  document.getElementById('msg-warn').style.display = 'none';
+  if (!/^[^\s@]+@farmatodo\.com$/.test(v)) { showLoginMsg('msg-error', 'Ingresa un correo v\u00e1lido con dominio @farmatodo.com'); return; }
+
+  // 1. Revisión rápida en este equipo
+  if (loadAll()[v]) { showLoginMsg('msg-warn'); return; }
+
+  // 2. Revisión en la hoja de respuestas (fuente oficial)
+  setLoginBusy(true);
+  fetch(SHEET_ENDPOINT + '?action=check&correo=' + encodeURIComponent(v))
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      setLoginBusy(false);
+      if (res && res.exists) { showLoginMsg('msg-warn'); return; }
+      if (!res || res.status !== 'ok') throw new Error('respuesta inesperada');
+      startSurvey(v);
+    })
+    .catch(function () {
+      setLoginBusy(false);
+      showLoginMsg('msg-error', 'No pudimos verificar tu correo en este momento. Revisa tu conexi\u00f3n e int\u00e9ntalo de nuevo.');
     });
-  }
+}
+
+function startSurvey(v) {
+  correo = v;
   document.getElementById('f-correo').value = v;
   document.getElementById('nav-right').innerHTML = '<span class="nav-cedula">' + esc(v) + '</span>';
-  setTimeout(function () { goScreen('survey'); goSec(1); }, all[v] ? 600 : 0);
+  goScreen('survey');
+  goSec(1);
 }
 
 function goSec(n) {
@@ -520,6 +544,7 @@ function submitSurvey() {
   saveAll(all);
   sendToSheet(data);
   showResult(data);
+  document.getElementById('inp-ced').value = '';
 }
 
 function showResult(d) {
