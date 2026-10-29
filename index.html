@@ -115,7 +115,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);mi
 .result-title{font-family:'DM Serif Display',serif;color:#fff;font-size:1.8rem;position:relative;z-index:1;}
 .result-sub{color:rgba(255,255,255,.55);font-size:.88rem;margin-top:.5rem;position:relative;z-index:1;}
 .result-body{background:var(--white);border-radius:0 0 var(--r-lg) var(--r-lg);padding:2rem;box-shadow:var(--sh-lg);margin-bottom:2rem;}
-.metrics-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1.5rem;}
+.metrics-row{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:1.5rem;}
 .metric-card{background:var(--off);border-radius:var(--r-sm);padding:1rem;text-align:center;}
 .metric-val{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--navy);}
 .metric-val span{font-size:.85rem;color:var(--light);font-family:'DM Sans',sans-serif;}
@@ -520,13 +520,9 @@ function submitSurvey() {
 }
 
 function showResult(d) {
-  var prom = interesPromedio(d);
   var temas = temasPrioritarios(d);
   document.getElementById('res-sub').textContent = [d.nombre || 'Colaborador/a', d.nivel, d.unidad].filter(Boolean).join(' \u00b7 ');
-  var fmt = prom != null ? prom.toFixed(1) : '--';
-  var pct = prom != null ? Math.round((prom / 5) * 100) : 0;
   var h = '<div class="metrics-row">'
-    + '<div class="metric-card"><div class="metric-val">' + fmt + '<span>/5</span></div><div class="score-bar-wrap"><div class="score-bar-fill" style="width:' + pct + '%;background:#1a9e6a"></div></div><div class="metric-label">Inter\u00e9s promedio</div></div>'
     + '<div class="metric-card"><div class="metric-val">' + temas.length + '</div><div class="metric-label">Temas prioritarios</div></div>'
     + '</div>';
   if (temas.length) h += '<div class="gaps-section"><div class="gaps-title"><span class="gap-dot" style="background:#1a9e6a"></span>Formaciones de mayor inter\u00e9s</div><div class="tag-cloud">' + temas.map(function (g) { return '<span class="tag tag-green">' + esc(g) + '</span>'; }).join('') + '</div></div>';
