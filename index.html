@@ -70,12 +70,13 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
 .textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(65,143,222,.12);}
 /* LIKERT */
 .likert-block{border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-top:.5rem;}
-.likert-head{display:grid;grid-template-columns:1fr repeat(5,52px);background:var(--navy);padding:8px 14px;}
+.likert-head{display:grid;grid-template-columns:1fr repeat(4,84px);background:var(--navy);padding:10px 14px;align-items:end;}
 .likert-head-label{font-size:.72rem;color:rgba(255,255,255,.6);font-weight:500;}
-.likert-head-num{font-size:.8rem;color:var(--blue-lt);font-weight:600;text-align:center;}
+.likert-head-num{font-size:.85rem;color:#fff;font-weight:700;text-align:center;line-height:1.2;}
+.likert-head-num small{display:block;font-size:.62rem;font-weight:500;color:rgba(255,255,255,.7);margin-top:3px;padding:0 2px;}
 .likert-scale-row{display:flex;justify-content:space-between;padding:4px 14px;background:var(--blue-faint);}
 .likert-scale-row span{font-size:.69rem;color:var(--blue);font-style:italic;}
-.likert-row{display:grid;grid-template-columns:1fr repeat(5,52px);padding:10px 14px;align-items:center;border-top:1px solid var(--border);transition:background .15s;}
+.likert-row{display:grid;grid-template-columns:1fr repeat(4,84px);padding:10px 14px;align-items:center;border-top:1px solid var(--border);transition:background .15s;}
 .likert-row:hover{background:var(--off);}
 .likert-row:nth-child(even){background:#fafbff;}
 .likert-item-label{font-size:.84rem;color:var(--text);line-height:1.35;padding-right:8px;}
@@ -107,6 +108,21 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
 .hour-btn{padding:8px 18px;border:1.5px solid var(--border);border-radius:99px;font-size:.83rem;cursor:pointer;transition:all .15s;background:var(--white);color:var(--text);font-family:'Montserrat',Arial,sans-serif;}
 .hour-btn:hover{border-color:var(--blue);}
 .hour-btn.selected{background:var(--navy);color:#fff;border-color:var(--navy);}
+.scale-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;}
+.scale-legend div{background:var(--blue-faint);border-radius:var(--r-sm);padding:8px 10px;font-size:.8rem;color:var(--navy);line-height:1.3;}
+.scale-legend b{display:block;font-size:1rem;color:var(--blue);}
+@media(max-width:640px){.scale-legend{grid-template-columns:1fr 1fr;}}
+.hint-line{font-size:.78rem;color:var(--muted);margin:-.25rem 0 1rem;}
+.intro-wrap{max-width:640px;margin:0 auto;padding:3rem 1.5rem 4rem;}
+.intro-card{background:var(--white);border-radius:var(--r-lg);box-shadow:var(--sh-lg);overflow:hidden;}
+.intro-hero{background:var(--navy);padding:2rem 2.25rem;color:#fff;}
+.intro-hero h1{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:1.5rem;line-height:1.25;}
+.intro-body{padding:2rem 2.25rem 2.25rem;font-size:.95rem;line-height:1.7;color:var(--text);}
+.intro-body p{margin-bottom:1rem;}
+.intro-sign{font-weight:700;color:var(--navy);margin-top:1.25rem;}
+.intro-note{background:var(--off);border-left:3px solid var(--blue);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 14px;font-size:.82rem;color:var(--muted);margin-top:1.25rem;}
+.closing-note{background:var(--off);border-radius:var(--r);padding:1.25rem 1.5rem;text-align:center;font-size:.9rem;color:var(--text);line-height:1.6;margin-top:1.5rem;}
+.closing-note strong{display:block;color:var(--navy);margin-top:.35rem;}
 .info-box{background:var(--blue-faint);border-left:3px solid var(--blue);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 14px;font-size:.82rem;color:var(--navy2);line-height:1.5;margin-bottom:1.25rem;font-style:italic;}
 .divider{height:1px;background:var(--border);margin:1.5rem 0;}
 .sub-heading{font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
@@ -136,7 +152,8 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
 @media(max-width:640px){
   .form-row{grid-template-columns:1fr;}
   .check-grid{grid-template-columns:1fr;}
-  .likert-head,.likert-row{grid-template-columns:1fr repeat(5,36px);}
+  .likert-head,.likert-row{grid-template-columns:1fr repeat(4,40px);}
+  .likert-head-num small{display:none;}
 }
 @media(prefers-reduced-motion:reduce){
   .screen{animation:none;}
@@ -177,6 +194,25 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
 </div>
 
 <!-- ══ SURVEY ══ -->
+<!-- ══ PRESENTACIÓN ══ -->
+<div class="screen" id="screen-intro">
+  <div class="intro-wrap">
+    <div class="intro-card">
+      <div class="intro-hero">
+        <div class="login-year">AÑO FISCAL 2026–2027</div>
+        <h1>Te damos la bienvenida a la Detección de Necesidades de Formación</h1>
+      </div>
+      <div class="intro-body">
+        <p>En este nuevo año fiscal queremos ofrecerte formaciones que se ajusten a tus necesidades y contribuyan al logro de tus metas profesionales.</p>
+        <p>Con esta consulta recopilaremos tus necesidades de aprendizaje para construir una oferta formativa pertinente, práctica y enfocada en tu éxito dentro de la empresa. Contamos con tus respuestas para seguir evolucionando juntos.</p>
+        <div class="intro-sign">Capacitación</div>
+        <div class="intro-note">El cuestionario tiene 5 secciones y solo puede responderse una vez, así que revisa tus respuestas antes de enviarlo.</div>
+        <button class="btn btn-primary btn-block" onclick="goScreen('survey'); goSec(1);">Comenzar cuestionario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="screen" id="screen-survey">
 <div class="survey-layout">
 
@@ -213,14 +249,17 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
   <div id="sec-2" class="ssec" style="display:none">
     <div class="section-header"><div class="section-num">2</div><div><div class="section-title">Interés en formación</div><div class="section-sub">¿En qué temas te gustaría formarte el próximo año?</div></div></div>
     <div class="section-body">
-      <div class="info-box"><strong>1</strong> = No me interesa / no lo necesito &nbsp;·&nbsp; <strong>3</strong> = Me interesa moderadamente &nbsp;·&nbsp; <strong>5</strong> = Muy interesado/a, es una prioridad para mí</div>
+      <p class="hint-line" style="margin:0 0 .75rem">Indica tu nivel de interés en cada tema según esta escala:</p>
+      <div class="scale-legend"><div><b>1</b>No es de mi interés</div><div><b>2</b>Me interesa</div><div><b>3</b>Muy interesado/a</div><div><b>4</b>Es una prioridad para mí</div></div>
+      <p class="hint-line">Si te equivocas, vuelve a hacer clic en la opción marcada para desmarcarla.</p>
       <div class="sub-heading">A. Comunicación e interpersonal</div>
       <div id="lt-interp"></div>
       <div class="divider"></div>
-      <div class="sub-heading">B. Desarrollo personal y pensamiento</div>
+      <div class="sub-heading">B. Desarrollo personal y pensamiento crítico</div>
       <div id="lt-gest"></div>
       <div class="divider"></div>
-      <div class="sub-heading">C. Liderazgo y gestión de personas (Coordinador, Gerente, Director)</div>
+      <div class="sub-heading">C. Liderazgo y gestión de personas</div>
+      <p class="hint-line">Dirigido a coordinadores, gerentes y directores.</p>
       <div id="lt-lider"></div>
       <div class="divider"></div>
       <div class="form-group"><label class="q-label" for="f-reto"><span class="q-num">2.1</span>¿Hay algún otro tema de formación que te interese y no esté en la lista?</label><textarea class="textarea" id="f-reto" placeholder="Describe los temas adicionales que te gustaría aprender..."></textarea></div>
@@ -240,7 +279,7 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
       <div class="divider"></div>
       <div class="form-group"><label class="q-label"><span class="q-num">3.4</span>Horas al mes disponibles para formación</label><div class="hours-grid" id="hg-horas"></div></div>
       <div class="divider"></div>
-      <div class="form-group"><label class="q-label"><span class="q-num">3.5</span>Obstáculos para aprovechar al máximo las formaciones</label><div class="check-grid" id="cg-obs"></div></div>
+      <div class="form-group"><label class="q-label"><span class="q-num">3.5</span>¿Qué dificulta el máximo aprovechamiento de tus formaciones?</label><div class="check-grid" id="cg-obs"></div></div>
       <div class="nav-btns"><button class="btn btn-ghost" onclick="goSec(2)">Anterior</button><button class="btn btn-primary" onclick="goSec(4)">Siguiente</button></div>
     </div>
   </div>
@@ -260,7 +299,8 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
   <div id="sec-5" class="ssec" style="display:none">
     <div class="section-header"><div class="section-num">5</div><div><div class="section-title">Sugerencias</div><div class="section-sub">Tu aporte directo para diseñar el plan formativo</div></div></div>
     <div class="section-body">
-      <div class="form-group"><label class="q-label" for="f-coment"><span class="q-num">5.1</span>Comentarios adicionales para el área de Formación y Desarrollo</label><textarea class="textarea" id="f-coment" placeholder="Cualquier comentario o sugerencia adicional..."></textarea></div>
+      <div class="form-group"><label class="q-label" for="f-coment"><span class="q-num">5.1</span>Comentarios adicionales para el área de Formación y Desarrollo</label><span class="q-hint">Cuéntanos qué sugerencias, necesidades o ideas tienes para mejorar tus futuras capacitaciones.</span><textarea class="textarea" id="f-coment" placeholder="Escribe aquí tus comentarios..."></textarea></div>
+      <div class="closing-note">Gracias por tomarte unos minutos de tu tiempo para responder este cuestionario.<strong>Capacitación… formamos con excelencia.</strong></div>
       <div class="nav-btns"><button class="btn btn-ghost" onclick="goSec(4)">Anterior</button><button class="btn btn-blue" onclick="submitSurvey()" style="padding:12px 28px;font-size:.95rem;font-weight:600">Enviar cuestionario</button></div>
     </div>
   </div>
@@ -313,6 +353,7 @@ var LIKERT = {
   ]
 };
 var LIKERT_GROUPS = ['interp', 'gest', 'lider'];
+var SCALE = ['No es de mi inter\u00e9s', 'Me interesa', 'Muy interesado/a', 'Es una prioridad para m\u00ed'];
 
 var correo = '';
 
@@ -374,8 +415,7 @@ function startSurvey(v) {
   correo = v;
   document.getElementById('f-correo').value = v;
   document.getElementById('nav-right').innerHTML = '<span class="nav-cedula">' + esc(v) + '</span>';
-  goScreen('survey');
-  goSec(1);
+  goScreen('intro');
 }
 
 function goSec(n) {
@@ -397,14 +437,22 @@ function buildLikert(cid, gkey, sL, sR) {
   var c = document.getElementById(cid); if (!c) return;
   var w = document.createElement('div'); w.className = 'likert-block';
   var hd = '<div class="likert-head"><div class="likert-head-label">Tema de formaci\u00f3n</div>';
-  for (var x = 1; x <= 5; x++) hd += '<div class="likert-head-num">' + x + '</div>';
-  hd += '</div><div class="likert-scale-row"><span>' + sL + '</span><span>' + sR + '</span></div>';
+  for (var x = 1; x <= 4; x++) hd += '<div class="likert-head-num">' + x + '<small>' + SCALE[x - 1] + '</small></div>';
+  hd += '</div>';
   w.innerHTML = hd;
   LIKERT[gkey].forEach(function (item) {
     var r = document.createElement('div'); r.className = 'likert-row';
     var inner = '<div class="likert-item-label">' + item.l + '</div>';
-    for (var n = 1; n <= 5; n++) inner += '<div class="likert-cell"><input type="radio" class="likert-radio" name="lk_' + item.k + '" value="' + n + '" aria-label="' + item.l + ': ' + n + '"></div>';
+    for (var n = 1; n <= 4; n++) inner += '<div class="likert-cell"><input type="radio" class="likert-radio" name="lk_' + item.k + '" value="' + n + '" aria-label="' + item.l + ': ' + n + '"></div>';
     r.innerHTML = inner;
+    r.querySelectorAll('input').forEach(function (inp) {
+      inp.addEventListener('pointerdown', function () { inp.dataset.was = inp.checked ? '1' : ''; });
+      inp.addEventListener('keydown', function () { inp.dataset.was = ''; });
+      inp.addEventListener('click', function () {
+        if (inp.dataset.was === '1') inp.checked = false;
+        inp.dataset.was = '';
+      });
+    });
     w.appendChild(r);
   });
   c.appendChild(w);
@@ -435,8 +483,9 @@ function buildRadio(cid, items) {
     el.tabIndex = 0; el.setAttribute('role', 'radio'); el.setAttribute('aria-checked', 'false');
     el.innerHTML = '<div class="radio-dot"></div><span class="radio-label">' + item + '</span>';
     function pick() {
+      var was = el.classList.contains('selected');
       c.querySelectorAll('.radio-item').forEach(function (x) { x.classList.remove('selected'); x.setAttribute('aria-checked', 'false'); });
-      el.classList.add('selected'); el.setAttribute('aria-checked', 'true');
+      if (!was) { el.classList.add('selected'); el.setAttribute('aria-checked', 'true'); }
     }
     el.onclick = pick;
     el.onkeydown = function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); pick(); } };
@@ -449,8 +498,9 @@ function buildHours() {
   ['1\u20134 hrs', '5\u20138 hrs', '9\u201312 hrs', '13\u201320 hrs', 'M\u00e1s de 20 hrs'].forEach(function (h) {
     var b = document.createElement('button'); b.type = 'button'; b.className = 'hour-btn'; b.textContent = h;
     b.onclick = function () {
+      var was = b.classList.contains('selected');
       document.querySelectorAll('.hour-btn').forEach(function (x) { x.classList.remove('selected'); });
-      b.classList.add('selected');
+      if (!was) b.classList.add('selected');
     };
     c.appendChild(b);
   });
@@ -496,7 +546,7 @@ function temasPrioritarios(d) {
   LIKERT_GROUPS.forEach(function (g) {
     LIKERT[g].forEach(function (item) {
       var v = (d.intereses || {})[item.k];
-      if (v != null && v >= 4) out.push(item.s);
+      if (v != null && v >= 3) out.push(item.s);
     });
   });
   return out;
@@ -551,7 +601,7 @@ function showResult(d) {
   var temas = temasPrioritarios(d);
   document.getElementById('res-sub').textContent = [d.nombre || 'Colaborador/a', d.nivel, d.unidad].filter(Boolean).join(' \u00b7 ');
   var h = '<div class="metrics-row">'
-    + '<div class="metric-card"><div class="metric-val">' + temas.length + '</div><div class="metric-label">Temas prioritarios</div></div>'
+    + '<div class="metric-card"><div class="metric-val">' + temas.length + '</div><div class="metric-label">Temas de mayor inter\u00e9s</div></div>'
     + '</div>';
   if (temas.length) h += '<div class="gaps-section"><div class="gaps-title"><span class="gap-dot" style="background:#001E62"></span>Formaciones de mayor inter\u00e9s</div><div class="tag-cloud">' + temas.map(function (g) { return '<span class="tag tag-green">' + esc(g) + '</span>'; }).join('') + '</div></div>';
   if (d.modalidades.length) h += '<div class="gaps-section"><div class="gaps-title"><span class="gap-dot" style="background:#418FDE"></span>Modalidades preferidas</div><div class="tag-cloud">' + d.modalidades.map(function (m) { return '<span class="tag tag-blue">' + esc(m) + '</span>'; }).join('') + '</div></div>';
