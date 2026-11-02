@@ -256,10 +256,11 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
       <div class="sub-heading">B. Desarrollo personal y pensamiento crítico</div>
       <div id="lt-gest"></div>
       <div class="divider"></div>
+      <div class="solo-lider" style="display:none">
       <div class="sub-heading">C. Liderazgo y gestión de personas</div>
-      <p class="hint-line">Dirigido a coordinadores, gerentes y directores.</p>
       <div id="lt-lider"></div>
       <div class="divider"></div>
+      </div>
       <div class="form-group"><label class="q-label" for="f-reto"><span class="q-num">2.1</span>¿Hay algún otro tema de formación que te interese y no esté en la lista?</label><textarea class="textarea" id="f-reto" placeholder="Describe los temas adicionales que te gustaría aprender..."></textarea></div>
       <div class="nav-btns"><button class="btn btn-ghost" onclick="goSec(1)">Anterior</button><button class="btn btn-primary" onclick="goSec(3)">Siguiente</button></div>
     </div>
@@ -287,8 +288,10 @@ body{font-family:'Montserrat',Arial,sans-serif;background:var(--off);color:var(-
     <div class="section-header"><div class="section-num">4</div><div><div class="section-title">Objetivos de desarrollo</div><div class="section-sub">¿Hacia dónde quieres crecer el próximo año?</div></div></div>
     <div class="section-body">
       <div class="form-group"><label class="q-label"><span class="q-num">4.1</span>¿Cuál es tu principal objetivo de desarrollo para el próximo año?</label><div class="radio-list" id="rl-obj"></div></div>
+      <div class="solo-lider" style="display:none">
       <div class="divider"></div>
-      <div class="form-group"><label class="q-label" for="f-brechas"><span class="q-num">4.2</span>¿Qué formaciones crees que necesita tu equipo para el próximo año?</label><span class="q-hint">Responde si eres Coordinador/a, Gerente o Director/a</span><textarea class="textarea" id="f-brechas" placeholder="¿En qué temas necesita formarse tu equipo para alcanzar los objetivos del área?"></textarea></div>
+      <div class="form-group"><label class="q-label" for="f-brechas"><span class="q-num">4.2</span>¿Qué formaciones crees que necesita tu equipo para el próximo año?</label><textarea class="textarea" id="f-brechas" placeholder="¿En qué temas necesita formarse tu equipo para alcanzar los objetivos del área?"></textarea></div>
+      </div>
       <div class="nav-btns"><button class="btn btn-ghost" onclick="goSec(3)">Anterior</button><button class="btn btn-primary" onclick="goSec(5)">Siguiente</button></div>
     </div>
   </div>
@@ -407,6 +410,18 @@ function doLogin() {
       setLoginBusy(false);
       showLoginMsg('msg-error', 'No pudimos verificar tu correo en este momento. Revisa tu conexi\u00f3n e int\u00e9ntalo de nuevo.');
     });
+}
+
+var NIVELES_LIDER = ['Director/a', 'Gerente', 'Coordinador/a'];
+function aplicarNivel() {
+  var esLider = NIVELES_LIDER.indexOf(gVal('f-nivel')) !== -1;
+  document.querySelectorAll('.solo-lider').forEach(function (el) {
+    el.style.display = esLider ? '' : 'none';
+    if (!esLider) {
+      el.querySelectorAll('input[type=radio]').forEach(function (i) { i.checked = false; });
+      el.querySelectorAll('textarea').forEach(function (t) { t.value = ''; });
+    }
+  });
 }
 
 function startSurvey(v) {
@@ -622,6 +637,7 @@ window.addEventListener('DOMContentLoaded', function () {
   buildRadio('rl-dur', ['30\u201360 minutos (microlearning)', '2\u20133 horas (taller enfocado)', 'D\u00eda completo (workshop intensivo)', 'Programa de varios d\u00edas o semanas', 'Me adapto a cualquier formato']);
   buildRadio('rl-obj', ['Profundizar mi especialidad actual', 'Prepararme para ascender al siguiente nivel', 'Desarrollar capacidades de liderazgo', 'Mejorar mi desempe\u00f1o en indicadores clave', 'Ampliarme hacia otra unidad de negocio', 'Actualizaci\u00f3n en herramientas digitales y tecnolog\u00eda', 'Cumplir requisitos regulatorios o de certificaci\u00f3n']);
   buildHours();
+  document.getElementById('f-nivel').addEventListener('change', aplicarNivel);
 });
 </script>
 <footer class="site-footer">Farmatodo · Gerencia de Capacitación · Vicepresidencia de Recursos Humanos</footer>
